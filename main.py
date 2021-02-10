@@ -5,9 +5,18 @@ import mimesis
 import os
 
 def select_surname():
-	pass
+	global surnames_box, labels
+	for i in cursor.execute(f'SELECT * FROM users WHERE surname = "{surnames_box.get()}"'):
+		user = i
+
+	for i in range(len(user)):
+		try:
+			labels[i]['text'] = user[i]
+		except:
+			pass
 
 root = Tk()
+root.geometry('250x250')
 person = mimesis.Person('en')
 address = mimesis.Address()
 try:
@@ -30,7 +39,6 @@ cursor.execute('''CREATE TABLE users (
 	email TEXT
 )''')
 
-print(dir(person))
 surnames = []
 for i in range(20):
 	age = person.age()
@@ -46,6 +54,11 @@ surnames_box.place(x = 10, y = 10, width = 100)
 surnames_button = Button(root, text = 'Select', command = select_surname)
 surnames_button.place(x = 115, y = 10)
 
-name_button = 
+labels = []
+
+for i in range(7):
+	label = Label(root, text = '')
+	label.place(x = 10, y = i * 20 + 50, width = 230)
+	labels.append(label)
 
 root.mainloop()
